@@ -28,7 +28,7 @@
             return {
                 ruleForm: {
                     username: 'admin',
-                    password: '123123'
+                    password: '123456'
                 },
                 rules: {
                     username: [
@@ -43,11 +43,15 @@
         methods: {
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
-                    if (valid) {
+                    if (valid&&this.ruleForm.username+this.ruleForm.password=="admin123456") {
                         localStorage.setItem('ms_username',this.ruleForm.username);
+                         this.$message({
+                            message: '登录成功',
+                            type: 'success'
+                            });
                         this.$router.push('/');
                     } else {
-                        console.log('error submit!!');
+                        this.$message.error('密码有误');
                         return false;
                     }
                 });
