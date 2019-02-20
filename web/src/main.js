@@ -9,8 +9,8 @@ import '../static/css/icon.css';
 import "babel-polyfill";
 
 Vue.use(ElementUI, { size: 'small' });
-Vue.prototype.$axios = axios;
-
+Vue.prototype.$http = axios;
+Window.ip ='http://101.101.9:8089/'
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
     const role = localStorage.getItem('ms_username');
@@ -30,7 +30,6 @@ router.beforeEach((to, from, next) => {
         }
     }
 })
-
 new Vue({
     router,
     render: h => h(App)
