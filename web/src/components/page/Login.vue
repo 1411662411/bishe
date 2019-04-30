@@ -16,7 +16,7 @@
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
                 </div>
-                <p class="login-tips">Tips : 用户名和密码随便填。</p>
+                <!-- <p class="login-tips">Tips : 用户名和密码随便填。</p> -->
             </el-form>
         </div>
     </div>
@@ -42,19 +42,36 @@
         },
         methods: {
             submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid&&this.ruleForm.username+this.ruleForm.password=="admin123456") {
-                        localStorage.setItem('ms_username',this.ruleForm.username);
+                if(this.ruleForm.username+this.ruleForm.password=="admin123456"){
+                    localStorage.setItem('ms_username',this.ruleForm.username);
                          this.$message({
                             message: '登录成功',
                             type: 'success'
                             });
                         this.$router.push('/');
-                    } else {
-                        this.$message.error('密码有误');
-                        return false;
-                    }
-                });
+                }else{
+                    this.$http.get(`${Window.ip}beam_ht/login?username=${this.ruleForm.username}&password=${this.ruleForm.password}`)
+                    .then(function (response) {
+                        debugger
+                        // handle success
+                        console.log(response);
+                    })
+                }
+
+                // beam_ht/login
+                // this.$refs[formName].validate((valid) => {
+                //     if (valid&&this.ruleForm.username+this.ruleForm.password=="admin123456") {
+                //         localStorage.setItem('ms_username',this.ruleForm.username);
+                //          this.$message({
+                //             message: '登录成功',
+                //             type: 'success'
+                //             });
+                //         this.$router.push('/');
+                //     } else {
+                //         this.$message.error('密码有误');
+                //         return false;
+                //     }
+                // });
             }
         }
     }

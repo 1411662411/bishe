@@ -6,12 +6,12 @@
             </el-breadcrumb>
         </div>
         <div class="container">
-            <el-table :data="data" border class="table">
+            <el-table :data="data.dataList" border class="table">
                 <el-table-column prop="date" label="时间"  width="150">
                 </el-table-column>
                 <el-table-column prop="name" label="姓名" width="120">
                 </el-table-column>
-                <el-table-column prop="address" label="地址" :formatter="formatter">
+                <el-table-column prop="address" label="地址" >
                 </el-table-column>
                 <!-- <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
@@ -52,7 +52,8 @@
                  this.getData(val);
             },
              getData(param) {
-                this.$http.get(`/allurl/page=${param}&size=${this.data.size}`)
+                //  http://47.99.159.66:8080/beam_ht/crawler/aTag
+                this.$http.get(`${Window.ip}beam_ht/crawler/aTag`)
                 .then(function (response) {
                     // handle success
                     console.log(response);

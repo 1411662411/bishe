@@ -169,7 +169,7 @@
                     name:'111',
                     age:2222
                 }
-                this.$http.get(Window.ip+'search/url=12345')
+                this.$http.get(`${Window.ip}/beam_ht/crawler/search?url=${this.textarea}&userName=${this.name}`)
                 .then(function (response) {
                     // handle success
                     console.log(response);
