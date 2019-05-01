@@ -42,6 +42,8 @@
         },
         methods: {
             submitForm(formName) {
+                var that=this;
+                localStorage.setItem('ms_username',this.ruleForm.username);
                 if(this.ruleForm.username+this.ruleForm.password=="admin123456"){
                     localStorage.setItem('ms_username',this.ruleForm.username);
                          this.$message({
@@ -50,11 +52,24 @@
                             });
                         this.$router.push('/');
                 }else{
-                    this.$http.get(`${Window.ip}beam_ht/login?username=${this.ruleForm.username}&password=${this.ruleForm.password}`)
-                    .then(function (response) {
-                        debugger
-                        // handle success
-                        console.log(response);
+                    this.$http.post(`${Window.ip}beam_ht/login?username=${this.ruleForm.username}&password=${this.ruleForm.password}`,{
+                            username: this.ruleForm.username,
+                            password: this.ruleForm.password
+                        })
+                    .then(res=> {
+                        res=res.data;
+                       if(res.success){
+                        that.$router.push('/');
+                        this.$message({
+                        message: '登录成功',
+                        type: 'success'
+                        });
+                       }else{
+                        this.$message({
+                            message: res.msg,
+                            type: 'error'
+                            });
+                       }
                     })
                 }
 

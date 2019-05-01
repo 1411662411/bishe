@@ -6,13 +6,13 @@
             </el-breadcrumb>
         </div>
         <div class="container">
-            <el-table :data="data.dataList" border class="table">
+            <el-table :data="data.records" border class="table">
                 <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
-                <el-table-column prop="date" label="日期"  width="150">
+                <el-table-column prop="createTime" label="日期"  width="150">
                 </el-table-column>
-                <el-table-column prop="name" label="操作人" width="120">
+                <el-table-column prop="userName" label="操作人" width="120">
                 </el-table-column>
-                <el-table-column prop="address" label="搜索地址" :formatter="formatter">
+                <el-table-column prop="url" label="搜索地址" >
                 </el-table-column>
             </el-table>
             <div class="pagination">
@@ -29,7 +29,7 @@
         data() {
             return {
               data:{
-                  dataList:[],
+                  records:[],
                   pages:5,
                   size:11,
               }
@@ -46,10 +46,11 @@
                 this.getData(val);
             },
             getData(param) {
-                this.$http.get(`/alllog/page=${param}&size=${this.data.size}`)
-                .then(function (response) {
-                    // handle success
-                    console.log(response);
+                this.$http.get(`${Window.ip}beam_ht/crawler/record?page=${param}&size=${this.data.size}`)
+                .then(res=> {
+                    res=res.data;
+                    this.data=res.data;
+                    this.data.pages=Number(this.data.pages);
                 })
             },
         }

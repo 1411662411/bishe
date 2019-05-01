@@ -32,15 +32,12 @@
                                 <i class="el-icon-lx-notice grid-con-icon"></i>
 
                                 <div class="grid-cont-right">
-                                    <div class="grid-num">1234</div>
+                                    <div class="grid-num">{{titleTag.list.length}}</div>
                                     <div >关键字</div>
                                 </div>
                             </div>
                             <div style="padding:15px 15px;min-height:280px;">
-                                <el-tag type="success">标签二</el-tag>
-                                <el-tag type="success">标签二</el-tag>
-                                <el-tag type="success">标签二</el-tag>
-                                <el-tag type="success">标签二</el-tag>
+                                <el-tag type="success" v-for="(v,i) in titleTag.list" :key="i">{{v}}</el-tag>
                             </div>
                         </el-card>
                     </el-col>
@@ -50,12 +47,12 @@
                                 <i class="el-icon-lx-people grid-con-icon"></i>
 
                                 <div class="grid-cont-right">
-                                    <div class="grid-num">321</div>
+                                    <div class="grid-num">{{metaTag.count}}</div>
                                     <div>摘要</div>
                                 </div>
                             </div>
-                              <div style="padding:15px 15px;min-height:280px;">
-                                摘要
+                              <div style="padding:15px 15px;min-height:280px;" v-for="(v,i) in metaTag.list" :key="i">
+                                {{v}}
                             </div>
                         </el-card>
                     </el-col>
@@ -64,15 +61,15 @@
                             <div class="grid-content grid-con-3">
                                 <i class="el-icon-lx-goods grid-con-icon"></i>
                                 <div class="grid-cont-right">
-                                    <div class="grid-num">5000</div>
+                                    <div class="grid-num">{{aTag.count}}</div>
                                     <div>链接数量</div>
                                 </div>
                             </div>
                             <div>
-                                 <el-table :data="todoList" :show-header="false" height="304" style="width: 100%;font-size:14px;">
+                                 <el-table :data="aTag.list" :show-header="false" height="304" style="width: 100%;font-size:14px;">
                                     <el-table-column>
                                         <template slot-scope="scope">
-                                            <div class="todo-item"><span style="margin-right:25px;">点击访问：</span><a href="https://news.vuejs.org" style="color:rgb(45, 140, 240)" target="_blank">周刊</a></div>
+                                            <div class="todo-item"><span style="margin-right:25px;">点击访问：</span><a :href="scope.row" style="color:rgb(45, 140, 240)" target="_blank">{{scope.row}}</a></div>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -93,59 +90,19 @@
             return {
                 textarea:"",
                 name: localStorage.getItem('ms_username'),
-                todoList: [{
-                        title: '今天要修复100个bug',
-                        status: false,
-                    },
-                    {
-                        title: '今天要修复100个bug',
-                        status: false,
-                    },
-                    {
-                        title: '今天要写100行代码加几个bug吧',
-                        status: false,
-                    }, {
-                        title: '今天要修复100个bug',
-                        status: false,
-                    },
-                    {
-                        title: '今天要修复100个bug',
-                        status: true,
-                    },
-                    {
-                        title: '今天要写100行代码加几个bug吧',
-                        status: true,
-                    }
-                ],
-                data: [{
-                        name: '2018/09/04',
-                        value: 1083
-                    },
-                    {
-                        name: '2018/09/05',
-                        value: 941
-                    },
-                    {
-                        name: '2018/09/06',
-                        value: 1139
-                    },
-                    {
-                        name: '2018/09/07',
-                        value: 816
-                    },
-                    {
-                        name: '2018/09/08',
-                        value: 327
-                    },
-                    {
-                        name: '2018/09/09',
-                        value: 228
-                    },
-                    {
-                        name: '2018/09/10',
-                        value: 1065
-                    }
-                ],
+                titleTag:{
+                    count:0,
+                    list:[]
+                },
+                metaTag:{
+                    count:0,
+                    list:[]
+                },
+                 aTag:{
+                    count:0,
+                    list:[]
+                },
+                
             }
         },
         components: {
@@ -170,9 +127,11 @@
                     age:2222
                 }
                 this.$http.get(`${Window.ip}/beam_ht/crawler/search?url=${this.textarea}&userName=${this.name}`)
-                .then(function (response) {
-                    // handle success
-                    console.log(response);
+                .then(res=> {
+                    res=res.data;
+                    this.aTag=res.data.aTag;
+                    this.titleTag=res.data.titleTag;
+                    this.metaTag=res.data.metaTag;
                 })
            }
         }

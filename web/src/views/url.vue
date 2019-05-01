@@ -6,12 +6,14 @@
             </el-breadcrumb>
         </div>
         <div class="container">
-            <el-table :data="data.dataList" border class="table">
-                <el-table-column prop="date" label="时间"  width="150">
+            <el-table :data="data.records" border class="table">
+                <el-table-column prop="id" label="ID"  width="150">
                 </el-table-column>
-                <el-table-column prop="name" label="姓名" width="120">
+                <el-table-column prop="userName" label="姓名" width="120">
                 </el-table-column>
-                <el-table-column prop="address" label="地址" >
+                <el-table-column prop="url" label="地址" >
+                </el-table-column>
+                 <el-table-column prop="createTime" label="时间" >
                 </el-table-column>
                 <!-- <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
@@ -34,7 +36,7 @@
         data() {
             return {
                 data:{
-                  dataList:[],
+                  records:[],
                   pages:5,
                   size:11,
               }
@@ -54,9 +56,10 @@
              getData(param) {
                 //  http://47.99.159.66:8080/beam_ht/crawler/aTag
                 this.$http.get(`${Window.ip}beam_ht/crawler/aTag`)
-                .then(function (response) {
-                    // handle success
-                    console.log(response);
+                .then(res=> {
+                    res=res.data;
+                    this.data=res.data;
+                    this.data.pages=Number(this.data.pages);
                 })
             },
         }
